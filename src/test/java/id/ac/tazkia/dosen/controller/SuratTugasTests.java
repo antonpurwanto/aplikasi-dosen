@@ -16,13 +16,13 @@ public class SuratTugasTests extends BaseSeleniumTests {
     private Faker faker = new Faker(new Locale("in-ID"));
     private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-    @Test
+//    @Test
     public void testListView() throws Exception {
         webDriver.get(baseUrl + "/surattugas/list");
         assertThat(webDriver.getTitle()).isEqualTo("Aplikasi Dosen :: Surat Tugas");
     }
 
-    @Test
+//    @Test
     public void testSubmitFormGagal() throws Exception {
         webDriver.get(baseUrl + "/surattugas/form");
         assertThat(webDriver.getTitle()).isEqualTo("Aplikasi Dosen :: Edit Surat Tugas");
@@ -37,7 +37,7 @@ public class SuratTugasTests extends BaseSeleniumTests {
 
     }
 
-    @Test
+//    @Test
     public void testSubmitFormSukses() throws Exception {
         webDriver.get(baseUrl + "/surattugas/form");
         assertThat(webDriver.getTitle()).isEqualTo("Aplikasi Dosen :: Edit Surat Tugas");
@@ -51,5 +51,23 @@ public class SuratTugasTests extends BaseSeleniumTests {
         );
 
         assertThat(webDriver.getTitle()).isEqualTo("Aplikasi Dosen :: Surat Tugas");
+    }
+
+//    @Test
+    public void testDeleteGagalIdTidakDitemukan() throws Exception {
+        webDriver.get(baseUrl + "/surattugas/delete?id=234");
+        assertThat(webDriver.getTitle()).isEqualTo("Aplikasi Dosen :: Halaman Error");
+        assertThat(webDriver.getPageSource())
+                .contains("500")
+                .contains("org.springframework.dao.EmptyResultDataAccessException");
+    }
+
+//    @Test
+    public void testDeleteSukses() throws Exception {
+        webDriver.get(baseUrl + "/surattugas/delete?id=4fd3cf54-77dc-4523-9bab-36387987d99e");
+        assertThat(webDriver.getTitle()).isEqualTo("Aplikasi Dosen :: Surat Tugas");
+        assertThat(webDriver.getPageSource())
+                .doesNotContain("4fd3cf54-77dc-4523-9bab-36387987d99e")
+                .contains("5118e180-7055-4fc7-8394-e287b405840c");
     }
 }
